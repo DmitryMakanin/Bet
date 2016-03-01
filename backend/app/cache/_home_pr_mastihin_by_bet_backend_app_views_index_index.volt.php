@@ -1,4 +1,4 @@
-{{ content() }}
+<?php echo $this->getContent(); ?>
 
 <ul class="breadcrumb">
   <li><a href="#">Home</a></li>

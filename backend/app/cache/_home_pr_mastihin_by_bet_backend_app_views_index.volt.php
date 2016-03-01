@@ -8,6 +8,6 @@
         <title>VanoBet</title>
     </head>
     <body>
-        {{ content() }}
+        <?php echo $this->getContent(); ?>
     </body>
 </html>

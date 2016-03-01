@@ -43,7 +43,8 @@ $di->setShared('view', function () use ($config) {
 
             $volt->setOptions(array(
                 'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
+                'compiledSeparator' => '_',
+				'compileAlways' => true
             ));
 
             return $volt;
@@ -82,4 +83,11 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+
+/**
+ * Component for nav-bar
+ */
+$di->set('elements', function () {
+	return new Elements();
 });
