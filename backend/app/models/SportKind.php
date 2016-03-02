@@ -11,4 +11,9 @@ class SportKind extends \Phalcon\Mvc\Model {
 	public function getName() {
 		return $this->name;
 	}
+	
+	public function setName($new_name) {
+		$filter = new \Phalcon\Filter();
+		$this->name = $filter->sanitize($new_name, 'string');
+	}
 }
