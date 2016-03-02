@@ -1,6 +1,6 @@
 <?php
 
-class Sport extends \Phalcon\Mvc\Model {
+class SportKind extends \Phalcon\Mvc\Model {
 	private $id;
 	private $name;
 	
