@@ -2,7 +2,12 @@
 
 class SportkindController extends ControllerBase {
 	public function IndexAction() {
-		$this->view->sports = SportKind::find();
+		$kinds = SportKind::find();
+		if ( $kinds == null ) {
+			$this->flash->error('Виды спорта не добавлены.');
+		} else {
+			$this->view->sports = SportKind::find();
+		}
 	}
 	
 	public function AddAction() {		
@@ -18,7 +23,7 @@ class SportkindController extends ControllerBase {
 			$sportkind = new SportKind();
 			$sportkind->setName( $this->request->getPost('name', 'string') );
 			
-			if ( !$form->isValid( $this->request->getPost(), $sportkind )) {
+			if ( !$form->isValid( $this->request->getPost() )) {
 				foreach ($form->getMessages() as $message) {
 					$this->flash->error($message);
 				}
@@ -47,8 +52,7 @@ class SportkindController extends ControllerBase {
 			$sportkind_id = $this->request->getPost('curr_sportkind_id', 'int');
 		}
 	
-		$filter = new \Phalcon\Filter;
-		$curr_sportkind = SportKind::findFirst( $filter->sanitize($sportkind_id, 'int') );
+		$curr_sportkind = SportKind::findFirst( (int)$sportkind_id );
 	
 		if ( !$curr_sportkind ) {
 			$this->flash->error('Данный вид спорта не найден!');
@@ -58,10 +62,10 @@ class SportkindController extends ControllerBase {
 	
 		$form = new SportKindEditForm($curr_sportkind, null);
 		$this->view->form = $form;
-		$this->view->curr_sportkind_id = $filter->sanitize($sportkind_id, 'int');
+		$this->view->curr_sportkind_id = (int)$sportkind_id;
 	
 		if ( $this->request->isPost() ) {
-			if ( !$form->isValid( $this->request->getPost(), $curr_sportkind )) {
+			if ( !$form->isValid( $this->request->getPost() )) {
 				foreach ($form->getMessages() as $message) {
 					$this->flash->error($message);
 				}
@@ -88,8 +92,7 @@ class SportkindController extends ControllerBase {
 			return;
 		}
 		
-		$filter = new \Phalcon\Filter();
-		$curr_sportkind = SportKind::findFirst( $filter->sanitize($sportkind_id, 'int') );
+		$curr_sportkind = SportKind::findFirst( (int)$sportkind_id );
 		if ( $curr_sportkind ) {
 			if ( $curr_sportkind->delete() ) {
 				$this->flash->success('Данный вид спорта удалён');
