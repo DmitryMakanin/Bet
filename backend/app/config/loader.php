@@ -9,6 +9,7 @@ $loader->registerDirs(
     array(
         $config->application->controllersDir,
 		$config->application->libraryDir,
-        $config->application->modelsDir
+        $config->application->modelsDir,
+    	$config->application->formsDir
     )
 )->register();

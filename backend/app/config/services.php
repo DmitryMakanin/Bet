@@ -91,3 +91,19 @@ $di->setShared('session', function () {
 $di->set('elements', function () {
 	return new Elements();
 });
+
+/**
+ * Flash component
+ */
+$di->set('flash', function () {
+	$flash = new \Phalcon\Flash\Direct(
+			array(
+					'error'   => 'alert alert-danger',
+					'success' => 'alert alert-success',
+					'notice'  => 'alert alert-info',
+					'warning' => 'alert alert-warning'
+			)
+	);
+	
+	return $flash;
+});
