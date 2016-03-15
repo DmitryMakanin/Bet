@@ -17,10 +17,10 @@
 	<tbody>
 	<?php foreach ($countries as $country) { ?>
 		<tr>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($country->getID()); ?></td>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($country->getCountryname()); ?></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($country->getId()); ?></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($country->getCountryName()); ?></td>
 			<td style="text-align: center; vertical-align: middle;">
-				<a href="/country/edit/<?php echo $this->escaper->escapeHtml($country->getID()); ?>" class="btn btn-default">Редактировать</a> <a href="/country/delete/<?php echo $this->escaper->escapeHtml($country->getID()); ?>" class="btn btn-default">Удалить</a>
+				<a href="/country/edit/<?php echo $this->escaper->escapeHtml($country->getId()); ?>" class="btn btn-default">Редактировать</a> <a href="/country/delete/<?php echo $this->escaper->escapeHtml($country->getId()); ?>" class="btn btn-default">Удалить</a>
 			</td>
 		</tr>
 	<?php } ?>

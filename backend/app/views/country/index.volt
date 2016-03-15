@@ -17,10 +17,10 @@
 	<tbody>
 	{% for country in countries %}
 		<tr>
-			<td style="text-align: center; vertical-align: middle;">{{ country.getID()|e }}</td>
-			<td style="text-align: center; vertical-align: middle;">{{ country.getCountryname()|e }}</td>
+			<td style="text-align: center; vertical-align: middle;">{{ country.getId()|e }}</td>
+			<td style="text-align: center; vertical-align: middle;">{{ country.getCountryName()|e }}</td>
 			<td style="text-align: center; vertical-align: middle;">
-				<a href="/country/edit/{{ country.getID()|e }}" class="btn btn-default">Редактировать</a> <a href="/country/delete/{{ country.getID()|e }}" class="btn btn-default">Удалить</a>
+				<a href="/country/edit/{{ country.getId()|e }}" class="btn btn-default">Редактировать</a> <a href="/country/delete/{{ country.getId()|e }}" class="btn btn-default">Удалить</a>
 			</td>
 		</tr>
 	{% endfor %}
