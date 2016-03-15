@@ -2,18 +2,18 @@
 
 class SportKind extends \Phalcon\Mvc\Model {
 	private $id;
-	private $name;
+	private $name_sport;
 	
 	public function getID() {
 		return $this->id;
 	}
 	
 	public function getName() {
-		return $this->name;
+		return $this->name_sport;
 	}
 	
-	public function setName($new_name) {
+	public function setName( $new_name ) {
 		$filter = new \Phalcon\Filter();
-		$this->name = $filter->sanitize($new_name, 'string');
+		$this->name_sport = $filter->sanitize($new_name, 'string');
 	}
 }

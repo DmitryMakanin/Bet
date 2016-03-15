@@ -6,7 +6,7 @@ class SportkindController extends ControllerBase {
 		if ( $kinds == null ) {
 			$this->flash->error('Виды спорта не добавлены.');
 		} else {
-			$this->view->sports = SportKind::find();
+			$this->view->sports = $kinds;
 		}
 	}
 	
