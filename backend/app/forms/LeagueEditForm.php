@@ -24,7 +24,7 @@ class LeagueEditForm extends \Phalcon\Forms\Form {
         $sport_kind->addValidator(new \Phalcon\Validation\Validator\PresenceOf(array('message' => 'Поле Вид спорта не заполнено')));
         $this->add($sport_kind);
 
-        $country = new \Phalcon\Forms\Element\Select("country", Country::find(), array(
+        $country = new \Phalcon\Forms\Element\Select("country_id", Country::find(), array(
             'using' => array('id', 'country_name'),
             'useEmpty' => true,
             'emptyText' => '...выберите страну...',
