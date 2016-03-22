@@ -9,4 +9,5 @@
 <ul class="nav">
 	<li><a href="/sportkind/">Установки видов спорта</a></li>
 	<li><a href="/country/">Установки стран</a></li>
+	<li><a href="/league/">Установки лиг</a></li>
 </ul>
