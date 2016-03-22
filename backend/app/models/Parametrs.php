@@ -1,6 +1,6 @@
 <?php
 
-class Country extends \Phalcon\Mvc\Model
+class Parametrs extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -13,7 +13,7 @@ class Country extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    protected $country_name;
+    protected $name_param;
 
     /**
      * Method to set the value of field id
@@ -29,14 +29,14 @@ class Country extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field country_name
+     * Method to set the value of field name_param
      *
-     * @param string $country_name
+     * @param string $name_param
      * @return $this
      */
-    public function setCountryName($country_name)
+    public function setNameParam($name_param)
     {
-        $this->country_name = $country_name;
+        $this->name_param = $name_param;
 
         return $this;
     }
@@ -52,13 +52,13 @@ class Country extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field country_name
+     * Returns the value of field name_param
      *
      * @return string
      */
-    public function getCountryName()
+    public function getNameParam()
     {
-        return $this->country_name;
+        return $this->name_param;
     }
 
     /**
@@ -66,7 +66,7 @@ class Country extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->hasMany('id', 'League', 'country_id', array('alias' => 'League'));
+        $this->hasMany('id', 'ParamSports', 'parametrs_id', array('alias' => 'ParamSports'));
     }
 
     /**
@@ -76,14 +76,14 @@ class Country extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'country';
+        return 'parametrs';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Country[]
+     * @return Parametrs[]
      */
     public static function find($parameters = null)
     {
@@ -94,7 +94,7 @@ class Country extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Country
+     * @return Parametrs
      */
     public static function findFirst($parameters = null)
     {
