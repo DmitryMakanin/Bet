@@ -23,9 +23,9 @@ class LeagueController extends ControllerBase
 
         if ( $this->request->isPost() ) {
             $league = new League();
-            $league->setNameLeague( $this->request->getPost('nameleague', 'string') );
-            $league->setCountryID( $this->request->getPost('country_id', 'int') );
-            $league->setSportKindID( $this->request->getPost('sport_kind_id', 'int') );
+            $league->setNameLeague( $this->request->getPost('name_league', 'string') );
+            $league->setCountryId( $this->request->getPost('country_id', 'int') );
+            $league->setSportKindId( $this->request->getPost('sport_kind_id', 'int') );
 
             if ( !$form->isValid( $this->request->getPost() )) {
                 foreach ($form->getMessages() as $message) {
@@ -76,9 +76,9 @@ class LeagueController extends ControllerBase
                 return;
             }
 
-            $curr_league->setNameLeague( $this->request->getPost('nameleague', 'string') );
-            $curr_league->setCountryID( $this->request->getPost('country_id', 'int') );
-            $curr_league->setSportKindID( $this->request->getPost('sport_kind_id', 'int') );
+            $curr_league->setNameLeague( $this->request->getPost('name_league', 'string') );
+            $curr_league->setCountryId( $this->request->getPost('country_id', 'int') );
+            $curr_league->setSportKindId( $this->request->getPost('sport_kind_id', 'int') );
 
             if ( !$curr_league->update() ) {
                 foreach ($curr_league->getMessages() as $message) {

@@ -12,17 +12,19 @@
 	<thead>
 		<th style="text-align: center; vertical-align: middle;">#</th>
 		<th style="text-align: center; vertical-align: middle;">Название лиги</th>
+		<th style="text-align: center; vertical-align: middle;">Страна</th>
+		<th style="text-align: center; vertical-align: middle;">Вид спорта</th>
 		<th style="text-align: center; vertical-align: middle;" width="30%">Действия</th>
 	</thead>
 	<tbody>
 	<?php foreach ($leagues as $league) { ?>
 		<tr>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $league->getID(); ?></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $league->getId(); ?></td>
 			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getNameLeague()); ?></td>
-			<td style="text-align: center; vertical-align: middle;"></td>
-			<td style="text-align: center; vertical-align: middle;"></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getCountryName()); ?></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getSport()); ?></td>
 			<td style="text-align: center; vertical-align: middle;">
-				<a href="/league/edit/<?php echo $league->getID(); ?>" class="btn btn-default">Редактировать</a> <a href="/league/delete/<?php echo $league->getID(); ?>" class="btn btn-default">Удалить</a>
+				<a href="/league/edit/<?php echo $league->getId(); ?>" class="btn btn-default">Редактировать</a> <a href="/league/delete/<?php echo $league->getID(); ?>" class="btn btn-default">Удалить</a>
 			</td>
 		</tr>
 	<?php } ?>

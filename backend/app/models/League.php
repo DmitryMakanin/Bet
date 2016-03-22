@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 /**
@@ -7,55 +6,6 @@
  * Date: 15.03.2016
  * Time: 11:15
  */
-class League extends \Phalcon\Mvc\Model
-{
-    private $id;
-    private $nameleague;
-    private $sport_kind_id;
-    private $country_id;
-
-    public function getID() {
-        return $this->id;
-    }
-
-    public function getNameLeague() {
-        return $this->nameleague;
-    }
-
-    public function getSportKindID() {
-        return $this->sport_kind_id;
-    }
-
-    public function getCountryID()
-    {
-        return $this->country_id;
-    }
-
-    public function setNameLeague($new_nameleague) {
-        $filter = new \Phalcon\Filter();
-        $this->nameleague = $filter->sanitize($new_nameleague, 'string');
-    }
-
-    public function setSportKindID($new_sport_kind_id) {
-        $this->sport_kind_id = (int) $new_sport_kind_id;
-    }
-
-    public function setCountryID($country_id)
-    {
-        $this->country_id = (int) $country_id;
-    }
-
-    /*public function initialize(){
-        $this->belongsTo("sport_kind_id", "SportKinds", "id");
-        $this->hasOne("country_id", "Country", "id");
-    }*/
-
-    /*public function getSportKind(){
-        $sportkind = SportKind::findFirst( (int)$this->sport_kind_id );
-    }*/
-}
-=======
-<?php
 
 class League extends \Phalcon\Mvc\Model
 {
@@ -221,5 +171,26 @@ class League extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+
+    public function getCountryName()
+    {
+        $query = $this->getModelsManager()->createQuery("SELECT country_name FROM Country WHERE id = :country_id:");
+        $countryName = $query->execute(
+            array(
+                'country_id' => $this->country_id
+            )
+        );
+        return $countryName->getFirst()->readAttribute('country_name');
+    }
+
+    public function getSport()
+    {
+        $query = $this->getModelsManager()->createQuery("SELECT name FROM SportKind WHERE id = :sport_kind_id:");
+        $sport = $query->execute(
+            array(
+                'sport_kind_id' => $this->sport_kind_id
+            )
+        );
+        return $sport->getFirst()->readAttribute('name');
+    }
 }
->>>>>>> upstream/master

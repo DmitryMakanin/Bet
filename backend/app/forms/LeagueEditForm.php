@@ -8,7 +8,7 @@
  */
 class LeagueEditForm extends \Phalcon\Forms\Form {
     public function initialize( $entity = null, $options = array() ) {
-        $name_league = new \Phalcon\Forms\Element\Text("nameleague", array('class' => 'form-control'));
+        $name_league = new \Phalcon\Forms\Element\Text("name_league", array('class' => 'form-control'));
         $name_league->setLabel("Название лиги");
         $name_league->addValidator( new \Phalcon\Validation\Validator\PresenceOf(array('message' => 'Поле Название лиги не заполнено')) );
         $this->add($name_league);
@@ -25,7 +25,7 @@ class LeagueEditForm extends \Phalcon\Forms\Form {
         $this->add($sport_kind);
 
         $country = new \Phalcon\Forms\Element\Select("country", Country::find(), array(
-            'using' => array('id', 'countryname'),
+            'using' => array('id', 'country_name'),
             'useEmpty' => true,
             'emptyText' => '...выберите страну...',
             'emptyValue' => '',
