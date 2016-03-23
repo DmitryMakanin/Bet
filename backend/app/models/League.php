@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Created by PhpStorm.
+ * User: Darya Busel
+ * Date: 15.03.2016
+ * Time: 11:15
+ */
+
 class League extends \Phalcon\Mvc\Model
 {
 
@@ -164,4 +171,26 @@ class League extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+
+    public function getCountryName()
+    {
+        $query = $this->getModelsManager()->createQuery("SELECT country_name FROM Country WHERE id = :country_id:");
+        $countryName = $query->execute(
+            array(
+                'country_id' => $this->country_id
+            )
+        );
+        return $countryName->getFirst()->readAttribute('country_name');
+    }
+
+    public function getSport()
+    {
+        $query = $this->getModelsManager()->createQuery("SELECT name FROM SportKind WHERE id = :sport_kind_id:");
+        $sport = $query->execute(
+            array(
+                'sport_kind_id' => $this->sport_kind_id
+            )
+        );
+        return $sport->getFirst()->readAttribute('name');
+    }
 }

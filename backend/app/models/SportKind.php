@@ -1,3 +1,4 @@
+
 <?php
 
 class SportKind extends \Phalcon\Mvc\Model
