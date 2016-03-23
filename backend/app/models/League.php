@@ -7,8 +7,16 @@
  * Time: 11:15
  */
 
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class League extends \Phalcon\Mvc\Model
 {
+    const DELETED = 'D';
+
+    /**
+     * @var string
+     */
+    private $status;
 
     /**
      *
@@ -33,6 +41,22 @@ class League extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $country_id;
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
 
     /**
      * Method to set the value of field id
@@ -137,6 +161,14 @@ class League extends \Phalcon\Mvc\Model
         $this->hasMany('id', 'Team', 'league_id', array('alias' => 'Team'));
         $this->belongsTo('sport_kind_id', 'SportKind', 'id', array('alias' => 'SportKind'));
         $this->belongsTo('country_id', 'Country', 'id', array('alias' => 'Country'));
+        $this->addBehavior(
+            new SoftDelete(
+                array(
+                    'field' => 'status',
+                    'value' => League::DELETED
+                )
+            )
+        );
     }
 
     /**
