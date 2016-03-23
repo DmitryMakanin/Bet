@@ -1,4 +1,5 @@
 <?php
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Season extends \Phalcon\Mvc\Model
 {
