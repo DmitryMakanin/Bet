@@ -1,4 +1,4 @@
-<?php echo $this->getContent(); ?>
+{{ content() }}
 
 <div class="well well-small">
 	<h4>Управление лигами</h4>
@@ -7,7 +7,7 @@
 
 <p class="text-right"><a href="/league/add" class="btn btn-primary">Добавить лигу</a></p>
 
-<?php if (isset($leagues)) { ?>
+{% if leagues is defined %}
 <table class="table table-bordered">
 	<thead>
 		<th style="text-align: center; vertical-align: middle;">#</th>
@@ -17,17 +17,17 @@
 		<th style="text-align: center; vertical-align: middle;" width="30%">Действия</th>
 	</thead>
 	<tbody>
-	<?php foreach ($leagues as $league) { ?>
+	{% for league in leagues %}
 		<tr>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $league->getId(); ?></td>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getNameLeague()); ?></td>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getCountryName()); ?></td>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getSport()); ?></td>
+			<td style="text-align: center; vertical-align: middle;">{{ league.getId() }}</td>
+			<td style="text-align: center; vertical-align: middle;">{{ league.getNameLeague()|e }}</td>
+			<td style="text-align: center; vertical-align: middle;">{{ league.getCountryName()|e }}</td>
+			<td style="text-align: center; vertical-align: middle;">{{ league.getSport()|e }}</td>
 			<td style="text-align: center; vertical-align: middle;">
-				<a href="/league/edit/<?php echo $league->getId(); ?>" class="btn btn-default">Редактировать</a> <a href="/league/delete/<?php echo $league->getID(); ?>" class="btn btn-default">Удалить</a>
+				<a href="/league/edit/{{ league.getId() }}" class="btn btn-default">Редактировать</a> <a href="/league/delete/{{ league.getID() }}" class="btn btn-default">Удалить</a>
 			</td>
 		</tr>
-	<?php } ?>
+	{% endfor %}
 	</tbody>
 </table>
-<?php } ?>
+{% endif %}
