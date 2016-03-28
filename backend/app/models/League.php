@@ -1,7 +1,22 @@
 <?php
 
+/**
+ * Created by PhpStorm.
+ * User: Darya Busel
+ * Date: 15.03.2016
+ * Time: 11:15
+ */
+
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class League extends \Phalcon\Mvc\Model
 {
+    const DELETED = 'D';
+
+    /**
+     * @var string
+     */
+    private $status;
 
     /**
      *
@@ -26,6 +41,22 @@ class League extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $country_id;
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
 
     /**
      * Method to set the value of field id
@@ -130,6 +161,14 @@ class League extends \Phalcon\Mvc\Model
         $this->hasMany('id', 'Team', 'league_id', array('alias' => 'Team'));
         $this->belongsTo('sport_kind_id', 'SportKind', 'id', array('alias' => 'SportKind'));
         $this->belongsTo('country_id', 'Country', 'id', array('alias' => 'Country'));
+        $this->addBehavior(
+            new SoftDelete(
+                array(
+                    'field' => 'status',
+                    'value' => League::DELETED
+                )
+            )
+        );
     }
 
     /**
@@ -164,4 +203,26 @@ class League extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+
+    public function getCountryName()
+    {
+        $query = $this->getModelsManager()->createQuery("SELECT country_name FROM Country WHERE id = :country_id:");
+        $countryName = $query->execute(
+            array(
+                'country_id' => $this->country_id
+            )
+        );
+        return $countryName->getFirst()->readAttribute('country_name');
+    }
+
+    public function getSport()
+    {
+        $query = $this->getModelsManager()->createQuery("SELECT name FROM SportKind WHERE id = :sport_kind_id:");
+        $sport = $query->execute(
+            array(
+                'sport_kind_id' => $this->sport_kind_id
+            )
+        );
+        return $sport->getFirst()->readAttribute('name');
+    }
 }
