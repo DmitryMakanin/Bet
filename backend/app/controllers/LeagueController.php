@@ -9,11 +9,17 @@
 class LeagueController extends ControllerBase
 {
     public function IndexAction() {
-        $leagues = League::find();
+        $leagues = League::find(['hydration' => \Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS]);
         if ( $leagues == null ) {
             $this->flash->error('Лиги не добавлены.');
         } else {
-            $this->view->leagues = League::find();
+            $leagues_array = array();
+            foreach($leagues as $league){
+                if($league->getStatus() == 'N'){
+                    array_push($leagues_array, $league);
+                }
+            }
+            $this->view->leagues = $leagues_array;
         }
     }
 
@@ -40,7 +46,7 @@ class LeagueController extends ControllerBase
                 }
                 return;
             } else {
-                $this->flash->success('Лига успешно добавлен!');
+                $this->flash->success('Лига успешно добавлена!');
                 $this->forward('league/index');
             }
         }
@@ -100,7 +106,7 @@ class LeagueController extends ControllerBase
 
         $curr_league = League::findFirst( (int)$league_id );
         if ( $curr_league ) {
-            if ( $curr_league->delete() ) {
+            if ( $curr_league->delete()) {
                 $this->flash->success('Данная лига удалёна');
                 $this->forward('league/index');
             }

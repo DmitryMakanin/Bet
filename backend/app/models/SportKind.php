@@ -1,4 +1,3 @@
-
 <?php
 
 class SportKind extends \Phalcon\Mvc\Model
@@ -106,5 +105,4 @@ class SportKind extends \Phalcon\Mvc\Model
     {
         return parent::findFirst($parameters);
     }
-
 }
