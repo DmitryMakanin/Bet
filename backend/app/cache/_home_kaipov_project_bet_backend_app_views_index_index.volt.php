@@ -1,4 +1,4 @@
-{{ content() }}
+<?php echo $this->getContent(); ?>
 
 <ul class="breadcrumb">
   <li><a href="#">Home</a></li>
@@ -16,9 +16,6 @@
 	<li><a href="/country/">Установки стран</a></li>
 	<li><a href="/league/">Установки лиг</a></li>
 	<li><a href="/season/">Установки сезонов</a></li>
-
 	<li><a href="/team/">Установки команд</a></li>
 	<li><a href="/parametrs/">Установки параметров</a></li>
 </ul>
-
-
