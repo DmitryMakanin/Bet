@@ -1,7 +1,6 @@
 <?php
 
-class MatchStat extends \Phalcon\Mvc\Model
-{
+class MatchStat extends \Phalcon\Mvc\Model {
 
     /**
      *
