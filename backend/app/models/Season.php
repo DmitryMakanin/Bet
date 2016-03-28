@@ -1,7 +1,14 @@
 <?php
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Season extends \Phalcon\Mvc\Model
 {
+    const DELETED = 'D';
+
+    /**
+     * @var string
+     */
+    private $status;
 
     /**
      *
@@ -26,6 +33,22 @@ class Season extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $league_sport_kind_id;
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
 
     /**
      * Method to set the value of field id
@@ -127,6 +150,14 @@ class Season extends \Phalcon\Mvc\Model
         $this->hasMany('id', 'Match', 'season_id', array('alias' => 'Match'));
         $this->belongsTo('league_id', 'League', 'id', array('alias' => 'League'));
         $this->belongsTo('league_sport_kind_id', 'SportKind', 'id', array('alias' => 'SportKind'));
+        $this->addBehavior(
+            new SoftDelete(
+                array(
+                    'field' => 'status',
+                    'value' => Season::DELETED
+                )
+            )
+        );
     }
 
     /**
@@ -161,4 +192,25 @@ class Season extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    public function getSport()
+    {
+        $query = $this->getModelsManager()->createQuery("SELECT name FROM SportKind WHERE id = :league_sport_kind_id:");
+        $sport = $query->execute(
+            array(
+                'league_sport_kind_id' => $this->league_sport_kind_id
+            )
+        );
+        return $sport->getFirst()->readAttribute('name');
+    }
+
+    public function getLeague()
+    {
+        $query = $this->getModelsManager()->createQuery("SELECT name_league FROM League WHERE id = :league_id:");
+        $league = $query->execute(
+            array(
+                'league_id' => $this->league_id
+            )
+        );
+        return $league->getFirst()->readAttribute('name_league');
+    }
 }

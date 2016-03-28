@@ -24,7 +24,7 @@
 			<td style="text-align: center; vertical-align: middle;">{{ league.getCountryName()|e }}</td>
 			<td style="text-align: center; vertical-align: middle;">{{ league.getSport()|e }}</td>
 			<td style="text-align: center; vertical-align: middle;">
-				<a href="/league/edit/{{ league.getId() }}" class="btn btn-default">Редактировать</a> <a href="/league/delete/{{ league.getID() }}" class="btn btn-default">Удалить</a>
+				<a href="/league/edit/{{ league.getId() }}" class="btn btn-default">Редактировать</a> <a href="/league/delete/{{ league.getId() }}" class="btn btn-default">Удалить</a>
 			</td>
 		</tr>
 	{% endfor %}
