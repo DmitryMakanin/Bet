@@ -1,4 +1,4 @@
-{{ content() }}
+<?php echo $this->getContent(); ?>
 
 <ul class="breadcrumb">
   <li><a href="#">Home</a></li>
@@ -14,4 +14,6 @@
 <ul class="nav">
 	<li><a href="/sportkind/">Установки видов спорта</a></li>
 	<li><a href="/country/">Установки стран</a></li>
+	<li><a href="/match/">Установки матча</a></li>
+
 </ul>
