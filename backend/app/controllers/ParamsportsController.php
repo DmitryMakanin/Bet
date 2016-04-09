@@ -2,21 +2,46 @@
 
 class ParamsportsController extends ControllerBase {
 	public function IndexAction() {
-		$param_sports = $this->db->query("
-				SELECT 
-				`param_sports`.`id`,
-				`sport_kind`.`id` AS `sport_kind_id`,
-				`sport_kind`.`name` AS `sport_kind_name`,
-				`parametrs`.`id` AS `parametrs_id`,
-				`parametrs`.`name_param` AS `parametrs_name_param`
-				FROM `param_sports`
-				LEFT JOIN `sport_kind` ON `param_sports`.`kind_of_sport_id` = `sport_kind`.`id`
-				LEFT JOIN `parametrs` ON `param_sports`.`parametrs_id` = `parametrs`.`id`
-				")->fetchAll();
+		$param_sports = ParamSports::getLeftJoinedDBQuery()->toArray();
 		if ( $param_sports == null ) {
 			$this->flash->error('Связи параметр - вид спорта не добавлены.');
 		} else {
 			$this->view->param_sports = $param_sports;
 		}
+	}
+	
+	public function AddAction() {
+		$form = new ParamsportsEditForm();
+		$this->view->form = $form;
+		
+		if ( $this->request->isPost() ) {
+			$paramsport = new ParamSports();
+			if ( isset($_REQUEST['del']) ) {
+				$paramsport->setDeleted( 1 );
+			}
+			$paramsport->setKindOfSportId( $this->request->get('kind', 'int') );
+			$paramsport->setParametrsId( $this->request->get('param', 'int') );  
+		
+			if ( !$form->isValid( $this->request->getPost() )) {
+				foreach ($form->getMessages() as $message) {
+					$this->flash->error($message);
+				}
+				return;
+			}
+		
+			if ( !$paramsport->save() ) {
+				foreach ($paramsport->getMessages() as $message) {
+					$this->flash->error($message);
+				}
+				return;
+			} else {
+				$this->flash->success('Связь параметр-вид спорта добавлен!');
+				$this->forward('paramsports/index');
+			}
+		}
+	}
+	
+	public function EditAction() {
+		
 	}
 }

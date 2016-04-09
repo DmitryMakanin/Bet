@@ -11,8 +11,9 @@
 <table class="table table-bordered">
 	<thead>
 		<th style="text-align: center; vertical-align: middle;">#</th>
-		<th style="text-align: center; vertical-align: middle;">Вид спорта</th>
 		<th style="text-align: center; vertical-align: middle;">Параметр</th>
+		<th style="text-align: center; vertical-align: middle;">Вид спорта</th>
+		<th style="text-align: center; vertical-align: middle;">Статус</th>
 		<th style="text-align: center; vertical-align: middle;" width="30%">Действия</th>
 	</thead>
 	<tbody>
@@ -21,6 +22,7 @@
 			<td style="text-align: center; vertical-align: middle;">{{ param['id']|e }}</td>
 			<td style="text-align: center; vertical-align: middle;">{{ param['parametrs_name_param']|e }} [{{ param['parametrs_id']|e }}]</td>
 			<td style="text-align: center; vertical-align: middle;">{{ param['sport_kind_name']|e }} [{{ param['sport_kind_id']|e }}]</td>
+			<td style="text-align: center; vertical-align: middle;">{% if param['deleted'] is 1 %}<font style="color: red;">удален</font>{% else %}существует{% endif %}</td>
 			<td style="text-align: center; vertical-align: middle;">
 				<a href="/paramsports/edit/{{ param['id']|e }}" class="btn btn-default">Редактировать</a> <a href="/paramsports/delete/{{ param['id']|e }}" class="btn btn-default">Удалить</a>
 			</td>

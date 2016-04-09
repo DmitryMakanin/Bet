@@ -1,9 +1,9 @@
 <?php echo $this->getContent(); ?>
 
-<?php echo $this->tag->form(array('country/add', 'method' => 'POST', 'class' => 'form-horizontal')); ?>
+<?php echo $this->tag->form(array('paramsports/add', 'method' => 'POST', 'class' => 'form-horizontal')); ?>
 
     <fieldset>
-    <legend>Добавление стран</legend>
+    <legend>Добавление связей параметр-вид спорта</legend>
 		
 		<?php foreach ($form->getElements() as $element) { ?>
 		<div class="form-group">

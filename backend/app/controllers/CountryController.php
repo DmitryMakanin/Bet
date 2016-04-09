@@ -16,7 +16,7 @@ class CountryController extends ControllerBase {
 	
 		if ( $this->request->isPost() ) {
 			$country = new Country();
-			$country->setCountryName( $this->request->getPost('country_name', 'string') );
+			$country->setCountryName( $this->request->getPost('countryname', 'string') );
 				
 			if ( !$form->isValid( $this->request->getPost() )) {
 				foreach ($form->getMessages() as $message) {

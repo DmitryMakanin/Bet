@@ -11,8 +11,9 @@
 <table class="table table-bordered">
 	<thead>
 		<th style="text-align: center; vertical-align: middle;">#</th>
-		<th style="text-align: center; vertical-align: middle;">Вид спорта</th>
 		<th style="text-align: center; vertical-align: middle;">Параметр</th>
+		<th style="text-align: center; vertical-align: middle;">Вид спорта</th>
+		<th style="text-align: center; vertical-align: middle;">Статус</th>
 		<th style="text-align: center; vertical-align: middle;" width="30%">Действия</th>
 	</thead>
 	<tbody>
@@ -21,6 +22,7 @@
 			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($param['id']); ?></td>
 			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($param['parametrs_name_param']); ?> [<?php echo $this->escaper->escapeHtml($param['parametrs_id']); ?>]</td>
 			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($param['sport_kind_name']); ?> [<?php echo $this->escaper->escapeHtml($param['sport_kind_id']); ?>]</td>
+			<td style="text-align: center; vertical-align: middle;"><?php if ($param['deleted'] == 1) { ?><font style="color: red;">удален</font><?php } else { ?>существует<?php } ?></td>
 			<td style="text-align: center; vertical-align: middle;">
 				<a href="/paramsports/edit/<?php echo $this->escaper->escapeHtml($param['id']); ?>" class="btn btn-default">Редактировать</a> <a href="/paramsports/delete/<?php echo $this->escaper->escapeHtml($param['id']); ?>" class="btn btn-default">Удалить</a>
 			</td>
