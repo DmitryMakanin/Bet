@@ -9,17 +9,29 @@
 class LeagueController extends ControllerBase
 {
     public function IndexAction() {
-        $leagues = League::find(['hydration' => \Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS]);
+        //$leagues = League::find(['hydration' => \Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS]);
+        $leagues = $this->db->query('
+        		SELECT
+				`league`.`id` AS `league_id`,
+				`league`.`name_league` AS `name_league`,
+				`sport_kind`.`name` AS `sport_kind_name`,
+				`country`.`country_name`,
+				`league`.`status` AS `league_status`
+				FROM `league`
+				LEFT JOIN `sport_kind` ON `league`.`sport_kind_id` = `sport_kind`.`id`
+				LEFT JOIN `country` ON `league`.`country_id` = `country`.`id`
+        ')->fetchAll();
+    	
         if ( $leagues == null ) {
             $this->flash->error('Лиги не добавлены.');
         } else {
-            $leagues_array = array();
+            /*$leagues_array = array();
             foreach($leagues as $league){
                 if($league->getStatus() == 'N'){
                     array_push($leagues_array, $league);
                 }
-            }
-            $this->view->leagues = $leagues_array;
+            }*/
+            $this->view->leagues = $leagues;
         }
     }
 

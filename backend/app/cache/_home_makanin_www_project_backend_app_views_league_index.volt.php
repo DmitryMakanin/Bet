@@ -19,12 +19,12 @@
 	<tbody>
 	<?php foreach ($leagues as $league) { ?>
 		<tr>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $league->getId(); ?></td>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getNameLeague()); ?></td>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getCountryName()); ?></td>
-			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league->getSport()); ?></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $league['league_id']; ?></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league['name_league']); ?></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league['country_name']); ?></td>
+			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league['sport_kind_name']); ?></td>
 			<td style="text-align: center; vertical-align: middle;">
-				<a href="/league/edit/<?php echo $league->getId(); ?>" class="btn btn-default">Редактировать</a> <a href="/league/delete/<?php echo $league->getID(); ?>" class="btn btn-default">Удалить</a>
+				<a href="/league/edit/<?php echo $league['league_id']; ?>" class="btn btn-default">Редактировать</a> <a href="/league/delete/<?php echo $league['league_id']; ?>" class="btn btn-default">Удалить</a>
 			</td>
 		</tr>
 	<?php } ?>

@@ -67,7 +67,7 @@ class CountryController extends ControllerBase {
 				return;
 			}
 				
-			$curr_country->setCountryName( $this->request->getPost('country_name', 'string') );
+			$curr_country->setCountryName( $this->request->getPost('countryname', 'string') );
 				
 			if ( !$curr_country->update() ) {
 				foreach ($curr_country->getMessages() as $message) {

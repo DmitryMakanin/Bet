@@ -11,7 +11,7 @@
 <table class="table table-bordered">
 	<thead>
 		<th style="text-align: center; vertical-align: middle;">#</th>
-		<th style="text-align: center; vertical-align: middle;">Название вида спорта</th>
+		<th style="text-align: center; vertical-align: middle;">Название страны</th>
 		<th style="text-align: center; vertical-align: middle;" width="30%">Действия</th>
 	</thead>
 	<tbody>
