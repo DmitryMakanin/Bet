@@ -1,0 +1,63 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<div class="row">
+    <nav>
+        <ul class="pager">
+            <li class="previous"><?php echo $this->tag->linkTo(array("users", "Back")) ?></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="page-header">
+    <h1>
+        Edit users
+    </h1>
+</div>
+
+<?php echo $this->getContent(); ?>
+
+<?php
+    echo $this->tag->form(
+        array(
+            "users/save",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        )
+    );
+?>
+
+<div class="form-group">
+    <label for="fieldEmail" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+        <?php echo $this->tag->textField(array("email", "size" => 30, "class" => "form-control", "id" => "fieldEmail")) ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="fieldPassword" class="col-sm-2 control-label">Password</label>
+    <div class="col-sm-10">
+        <?php echo $this->tag->textField(array("password", "size" => 30, "class" => "form-control", "id" => "fieldPassword")) ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="fieldRoleid" class="col-sm-2 control-label">RoleID</label>
+    <div class="col-sm-10">
+        <?php echo $this->tag->textField(array("roleID", "size" => 30, "class" => "form-control", "id" => "fieldRoleid")) ?>
+    </div>
+</div>
+
+
+<?php echo $this->tag->hiddenField("id") ?>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <?php echo $this->tag->submitButton(array("Save", "class" => "btn btn-default")) ?>
+    </div>
+</div>
+
+<?php echo $this->tag->endForm(); ?>

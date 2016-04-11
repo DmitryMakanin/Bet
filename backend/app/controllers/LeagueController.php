@@ -6,21 +6,43 @@
  * Date: 15.03.2016
  * Time: 11:13
  */
+
+use Phalcon\Paginator\Adapter\NativeArray as PaginatorArray;
+
 class LeagueController extends ControllerBase
 {
     public function IndexAction() {
         //$leagues = League::find(['hydration' => \Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS]);
+        
+    	$curr_page = $this->request->get('page', 'int', 1);
+    	$limit_lower = $curr_page * 50 - 50;
+    	$limit_higher = $curr_page * 50;
+    	
+    	//LIMIT ' . $limit_lower . ', ' . $limit_higher . '
         $leagues = $this->db->query('
         		SELECT
 				`league`.`id` AS `league_id`,
 				`league`.`name_league` AS `name_league`,
 				`sport_kind`.`name` AS `sport_kind_name`,
 				`country`.`country_name`,
-				`league`.`status` AS `league_status`
+				`league`.`state` AS `league_status`
 				FROM `league`
 				LEFT JOIN `sport_kind` ON `league`.`sport_kind_id` = `sport_kind`.`id`
 				LEFT JOIN `country` ON `league`.`country_id` = `country`.`id`
         ')->fetchAll();
+        
+        
+        
+        // Передача данных из массива
+        $paginator = new PaginatorArray(
+        		array(
+        				"data"  => $leagues,
+        				"limit" => 50,
+        				"page"  => $curr_page
+        		)
+        );
+        
+        
     	
         if ( $leagues == null ) {
             $this->flash->error('Лиги не добавлены.');
@@ -31,7 +53,7 @@ class LeagueController extends ControllerBase
                     array_push($leagues_array, $league);
                 }
             }*/
-            $this->view->leagues = $leagues;
+            $this->view->leagues = $paginator->getPaginate();;
         }
     }
 
