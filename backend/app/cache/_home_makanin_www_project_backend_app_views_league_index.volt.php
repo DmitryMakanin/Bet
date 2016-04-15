@@ -40,7 +40,19 @@
 			<td style="text-align: center; vertical-align: middle;"><?php echo $this->escaper->escapeHtml($league['sport_kind_name']); ?></td>
 			<td style="text-align: center; vertical-align: middle;"><?php echo $league['league_status']; ?></td>
 			<td style="text-align: center; vertical-align: middle;">
-				<a href="/league/edit/<?php echo $league['league_id']; ?>" class="btn btn-default">Редактировать</a> <a href="/league/delete/<?php echo $league['league_id']; ?>" class="btn btn-default">Удалить</a>
+				<a href="/league/edit/<?php echo $league['league_id']; ?>" class="btn btn-default">Редактировать</a>
+				<?php if ($league['league_status'] == 'non_deleted') { ?>
+					<a href="/league/delete/?act=hide&league_id=<?php echo $league['league_id']; ?>" class="btn btn-default">Скрыть</a>
+					<a href="/league/delete/?act=delete&league_id=<?php echo $league['league_id']; ?>" class="btn btn-default">Удалить</a>
+				<?php } ?>
+				<?php if ($league['league_status'] == 'deleted') { ?>
+					<a href="/league/delete/?act=restore&league_id=<?php echo $league['league_id']; ?>" class="btn btn-default">Восстановить</a>
+					<a href="/league/delete/?act=hide&league_id=<?php echo $league['league_id']; ?>" class="btn btn-default">Скрыть</a>
+				<?php } ?>
+				<?php if ($league['league_status'] == 'hidden') { ?>
+					<a href="/league/delete/?act=restore&league_id=<?php echo $league['league_id']; ?>" class="btn btn-default">Восстановить</a>
+					<a href="/league/delete/?act=delete&league_id=<?php echo $league['league_id']; ?>" class="btn btn-default">Удалить</a>
+				<?php } ?>
 			</td>
 		</tr>
 	<?php } ?>

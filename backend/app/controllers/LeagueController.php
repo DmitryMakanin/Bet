@@ -31,8 +31,6 @@ class LeagueController extends ControllerBase
 				LEFT JOIN `country` ON `league`.`country_id` = `country`.`id`
         ')->fetchAll();
         
-        
-        
         // Передача данных из массива
         $paginator = new PaginatorArray(
         		array(
@@ -41,19 +39,11 @@ class LeagueController extends ControllerBase
         				"page"  => $curr_page
         		)
         );
-        
-        
-    	
+
         if ( $leagues == null ) {
             $this->flash->error('Лиги не добавлены.');
         } else {
-            /*$leagues_array = array();
-            foreach($leagues as $league){
-                if($league->getStatus() == 'N'){
-                    array_push($leagues_array, $league);
-                }
-            }*/
-            $this->view->leagues = $paginator->getPaginate();;
+            $this->view->leagues = $paginator->getPaginate();
         }
     }
 
@@ -132,18 +122,46 @@ class LeagueController extends ControllerBase
         }
     }
 
-    public function DeleteAction( $league_id = null ) {
-        if ( $league_id == null ) {
-            $this->forward('league/index');
-            return;
-        }
+    public function DeleteAction() {
+    	/*
+    	 * Пример входящего запроса
+    	 * array(3) { 
+    	 * ["_url"]=> string(15) "/league/delete/" 
+    	 * ["act"]=> string(4) "hide" 
+    	 * ["league_id"]=> string(1) "6" 
+    	 * }
+    	 */
+    	$curr_act = $this->request->get('act', 'string');
+    	$curr_league_id = (int)$_GET['league_id'];
+    	
+    	if ( $curr_act === '' || $curr_league_id === '' ) {
+    		$this->flash->error('Некорректный запрос');
+    		$this->forward('league/index');
+    		return;
+    	}
 
-        $curr_league = League::findFirst( (int)$league_id );
+        $curr_league = League::findFirst( $curr_league_id );
         if ( $curr_league ) {
-            if ( $curr_league->delete()) {
-                $this->flash->success('Данная лига удалёна');
-                $this->forward('league/index');
-            }
+        	switch ( $curr_act ) {
+        		case 'hide':
+        			$curr_league->setState('hidden');
+        			break;
+        		case 'delete':
+        			$curr_league->setState('deleted');
+        			break;
+        		case 'restore':
+        			$curr_league->setState('non_deleted');
+        			break;
+        		default:
+        			$this->flash->error('Некорректный запрос');
+        			return;
+        			break;
+        	}
+        	
+        	if ( $curr_league->save() ) {
+        		$this->flash->success('Данная лига обновлена.');
+        		$this->forward('league/index');
+        	}
         } else {
             $this->flash->error('Лига с данным ID не найдена');
         }

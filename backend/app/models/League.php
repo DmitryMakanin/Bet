@@ -16,7 +16,7 @@ class League extends \Phalcon\Mvc\Model
     /**
      * @var string
      */
-    private $status;
+    private $state;
 
     /**
      *
@@ -45,17 +45,17 @@ class League extends \Phalcon\Mvc\Model
     /**
      * @return string
      */
-    public function getStatus()
+    public function getState()
     {
-        return $this->status;
+        return $this->state;
     }
 
     /**
      * @param string $status
      */
-    public function setStatus($status)
+    public function setState($status)
     {
-        $this->status = $status;
+        $this->state = $status;
     }
 
     /**
@@ -161,14 +161,14 @@ class League extends \Phalcon\Mvc\Model
         $this->hasMany('id', 'Team', 'league_id', array('alias' => 'Team'));
         $this->belongsTo('sport_kind_id', 'SportKind', 'id', array('alias' => 'SportKind'));
         $this->belongsTo('country_id', 'Country', 'id', array('alias' => 'Country'));
-        $this->addBehavior(
+        /*$this->addBehavior(
             new SoftDelete(
                 array(
                     'field' => 'status',
                     'value' => League::DELETED
                 )
             )
-        );
+        );*/
     }
 
     /**

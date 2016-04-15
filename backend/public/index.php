@@ -34,4 +34,9 @@ try {
     echo $e->getMessage();
 }
 
-echo "<p class=\"text-right\">". 1000 * round(microtime(true) - $start, 4) . " ms</p>";
+echo '<div class="text-right" style="font-size: 7pt;">' . (1000 * round((microtime(true) - $start), 4)) . 'ms - ' . convert(memory_get_usage()) . '</div>';
+
+function convert($size) {
+	$unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+	return @round($size / pow(1024, ($i = floor( log( $size, 1024 ) ) ) ),2) . ' ' . $unit[$i];
+}
