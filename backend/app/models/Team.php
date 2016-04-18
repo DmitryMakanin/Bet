@@ -2,6 +2,8 @@
 
 class Team extends \Phalcon\Mvc\Model
 {
+    const DELETED = 'D';
+
 
     /**
      *
@@ -32,6 +34,7 @@ class Team extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $league_kind_sport_id;
+
 
     /**
      * Method to set the value of field id
@@ -83,6 +86,19 @@ class Team extends \Phalcon\Mvc\Model
         $this->league_id = $league_id;
 
         return $this;
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setState($status)
+    {
+        $this->state = $status;
     }
 
     /**

@@ -86,8 +86,8 @@ class SportkindController extends ControllerBase {
 		}
 	}
 	
-	public function DeleteAction( $sportkind_id = null ) {
-		if ( $sportkind_id == null ) {
+	public function DeleteAction() {
+		/*if ( $sportkind_id == null ) {
 			$this->forward('sportkind/index');
 			return;
 		}
@@ -100,6 +100,42 @@ class SportkindController extends ControllerBase {
 			}
 		} else {
 			$this->flash->error('Вид спорта с данным ID не найден');
+		}*/
+
+		$curr_act = $this->request->get('act', 'string');
+		$curr_sportkind_id = (int)$_GET['sport_id'];
+
+		if ($curr_act == '' || $curr_sportkind_id == '') {
+			$this->flash->error('Неккоректный запрос');
+			$this->forward('sportkind/index');
+			return;
+		}
+
+		$curr_sportkind = SportKind::findFirst($curr_sportkind_id);
+		if ($curr_sportkind) {
+			switch ($curr_act) {
+				case 'hide':
+					$curr_sportkind->setState('hidden');
+					break;
+				case 'delete':
+					$curr_sportkind->setState('deleted');
+					break;
+				case 'restore':
+					$curr_sportkind->setState('non_deleted');
+					break;
+				default:
+					$this->flash->error('Некорректный запрос!');
+					return;
+					break;
+			}
+
+			if ($curr_sportkind->save()) {
+				$this->flash->success('Данный матч обновлен!');
+				$this->forward('sportkind/index');
+			}
+
+		} else {
+			$this->flash->error('Данный матч не найден');
 		}
 	}
 }

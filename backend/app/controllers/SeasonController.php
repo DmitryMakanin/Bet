@@ -9,7 +9,15 @@
 class SeasonController extends ControllerBase
 {
     public function IndexAction() {
-        $seasons = Season::find(['hydration' => \Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS]);
+
+        $seasons = Season::find();
+        if ( $seasons == null ) {
+            $this->flash->error('Страны не добавлены.');
+        } else {
+            $this->view->seasons = $seasons;
+        }
+
+        /*$seasons = Season::find(['hydration' => \Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS]);
         if ( $seasons == null ) {
             $this->flash->error('Сезоны не добавлены.');
         } else {
@@ -20,7 +28,7 @@ class SeasonController extends ControllerBase
                 }
             }
             $this->view->seasons = $seasons_array;
-        }
+        }*/
     }
 
     public function AddAction() {
@@ -98,8 +106,8 @@ class SeasonController extends ControllerBase
         }
     }
 
-    public function DeleteAction( $season_id = null ) {
-        if ( $season_id == null ) {
+    public function DeleteAction() {
+        /*if ( $season_id == null ) {
             $this->forward('season/index');
             return;
         }
@@ -112,6 +120,42 @@ class SeasonController extends ControllerBase
             }
         } else {
             $this->flash->error('Сезон с данным ID не найден');
+        }*/
+
+        $curr_act = $this->request->get('act', 'string');
+        $curr_season_id = (int)$_GET['season_id'];
+
+        if ($curr_act == '' || $curr_season_id == '') {
+            $this->flash->error('Неккоректный запрос');
+            $this->forward('season/index');
+            return;
+        }
+
+        $curr_season = Season::findFirst($curr_season_id);
+        if ($curr_season) {
+            switch ($curr_act) {
+                case 'hide':
+                    $curr_season->setState('hidden');
+                    break;
+                case 'delete':
+                    $curr_season->setState('deleted');
+                    break;
+                case 'restore':
+                    $curr_season->setState('non_deleted');
+                    break;
+                default:
+                    $this->flash->error('Некорректный запрос!');
+                    return;
+                    break;
+            }
+
+            if ($curr_season->save()) {
+                $this->flash->success('Данный матч обновлен!');
+                $this->forward('season/index');
+            }
+
+        } else {
+            $this->flash->error('Данный матч не найден');
         }
     }
 }

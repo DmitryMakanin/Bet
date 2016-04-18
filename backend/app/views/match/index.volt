@@ -31,8 +31,21 @@
 			<td style="text-align: center; vertical-align: middle;">{{ match['kind_name']|e }}</td>
 			<td style="text-align: center; vertical-align: middle;">{{ match['dt_start']|e }}</td>
 			<td style="text-align: center; vertical-align: middle;">{{ match['dt_end']|e }}</td>
+			<td style="text-align: center; vertical-align: middle;">{{ match['match_status'] }}</td>
 			<td style="text-align: center; vertical-align: middle;">
-			<a href="/match/edit/{{ match['match_id']|e }}" class="btn btn-default">Редактировать</a> <a href="/match/delete/{{ match['match_id']|e }}" class="btn btn-default">Удалить</a>
+			<a href="/match/edit/{{ match['match_id']|e }}" class="btn btn-default">Редактировать</a>
+			{% if match['match_status'] == 'non_deleted' %}
+            					<a href="/match/delete/?act=hide&match_id={{ match['match_id'] }}" class="btn btn-default">Скрыть</a>
+            					<a href="/match/delete/?act=delete&match_id={{ match['match_id'] }}" class="btn btn-default">Удалить</a>
+            				{% endif %}
+            				{% if match['match_status'] == 'deleted' %}
+            					<a href="/match/delete/?act=restore&match_id={{ match['match_id'] }}" class="btn btn-default">Восстановить</a>
+            					<a href="/match/delete/?act=hide&match_id={{ match['match_id'] }}" class="btn btn-default">Скрыть</a>
+            				{% endif %}
+            				{% if match['match_status'] == 'hidden' %}
+            					<a href="/match/delete/?act=restore&match_id={{ match['match_id'] }}" class="btn btn-default">Восстановить</a>
+            					<a href="/match/delete/?act=delete&match_id={{ match['match_id'] }}"d class="btn btn-default">Удалить</a>
+            				{% endif %}
 			</td>
 		</tr>
 	{% endfor %}

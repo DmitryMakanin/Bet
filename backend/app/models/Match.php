@@ -1,7 +1,9 @@
-/<?php
+<?php
+
 
 class Match extends \Phalcon\Mvc\Model
 {
+    const DELETED = 'D';
 
     /**
      *
@@ -51,12 +53,15 @@ class Match extends \Phalcon\Mvc\Model
      */
     protected $dt_end;
 
+
     /**
      * Method to set the value of field id
      *
      * @param integer $id
      * @return $this
      */
+
+
     public function setId($id)
     {
         $this->id = $id;
@@ -160,6 +165,20 @@ class Match extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setState($status)
+    {
+        $this->state = $status;
+    }
+
     public function getId()
     {
         return $this->id;

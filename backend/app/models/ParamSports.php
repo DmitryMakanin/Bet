@@ -3,6 +3,9 @@
 class ParamSports extends \Phalcon\Mvc\Model
 {
 
+    const DELETED = 'D';
+
+
     /**
      *
      * @var integer
@@ -20,15 +23,6 @@ class ParamSports extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $parametrs_id;
-    protected $deleted;
-    
-    public function getDeleted() {
-    	return $this->deleted;
-    }
-    
-    public function setDeleted( $deleted ) {
-    	$this->deleted = $deleted;
-    }
 
     /**
      * Method to set the value of field id
@@ -49,6 +43,20 @@ class ParamSports extends \Phalcon\Mvc\Model
      * @param integer $kind_of_sport_id
      * @return $this
      */
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setState($status)
+    {
+        $this->state = $status;
+    }
+
     public function setKindOfSportId($kind_of_sport_id)
     {
         $this->kind_of_sport_id = $kind_of_sport_id;
@@ -107,6 +115,7 @@ class ParamSports extends \Phalcon\Mvc\Model
         $this->hasMany('id', 'MatchStat', 'param_sports_id', array('alias' => 'MatchStat'));
         $this->belongsTo('kind_of_sport_id', 'SportKind', 'id', array('alias' => 'SportKind'));
         $this->belongsTo('parametrs_id', 'Parametrs', 'id', array('alias' => 'Parametrs'));
+
     }
 
     /**
@@ -141,16 +150,4 @@ class ParamSports extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
-    
-    /**
-     * CUSTOM SELECTS
-     */
-    public static function getLeftJoinedDBQuery() {
-    	$sql = "SELECT `param_sports`.`deleted`, `param_sports`.`id`, `sport_kind`.`id` AS `sport_kind_id`, `sport_kind`.`name` AS `sport_kind_name`, `parametrs`.`id` AS `parametrs_id`,
-`parametrs`.`name_param` AS `parametrs_name_param` FROM `param_sports` LEFT JOIN `sport_kind` ON `param_sports`.`kind_of_sport_id` = `sport_kind`.`id`
-LEFT JOIN `parametrs` ON `param_sports`.`parametrs_id` = `parametrs`.`id` ORDER BY `param_sports`.`id`";
-        $paramsports = new ParamSports();
-        return new \Phalcon\Mvc\Model\Resultset\Simple(null, $paramsports, $paramsports->getReadConnection()->query($sql));
-    }
-  
 }

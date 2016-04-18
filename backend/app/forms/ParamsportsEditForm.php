@@ -1,37 +1,42 @@
 <?php
 
-class ParamsportsEditForm extends \Phalcon\Forms\Form {
-	public function initialize( $entity = null, $options = array() ) {
-		$temp_arr = array(
-				'1' => '2',
-				'3' => '4',
-				'5' => '6'
-		);
-		
-		$parameter = new \Phalcon\Forms\Element\Select('param', Parametrs::find(), array(
-			'using' => array('id', 'name_param'),
-			'useEmpty' => true,
-			'emptyText' => '...выберите параметр...',
-			'emptyValue' => '',
-			'class' => 'form-control'
-		));
-		$parameter->setLabel('Параметр');
-		$parameter->addValidator( new \Phalcon\Validation\Validator\PresenceOf( array('message' => 'Поле Параметр необходимо для заполнения!') ) );
-		$this->add($parameter);
-		
-		$kind =  new \Phalcon\Forms\Element\Select('kind', SportKind::find(), array(
-			'using' => array('id', 'name'),
-			'useEmpty' => true,
-			'emptyText' => '...выберите вид спорта...',
-			'emptyValue' => '',
-			'class' => 'form-control'
-		));
-		$kind->setLabel('Вид спорта');
-		$kind->addValidator( new \Phalcon\Validation\Validator\PresenceOf( array('message' => 'Поле Вид спорта необходимо для заполнения!') ) );
-		$this->add($kind); 
-		
-		$del = new \Phalcon\Forms\Element\Check('del');
-		$del->setLabel('Удалён?');
-		$this->add($del);
-	}
+class ParamsportsEditForm extends Phalcon\Forms\Form{
+    public function initialize ($entity = null, $options = array()) {
+        $params_arr = array();
+        $all_params = Parametrs::find();
+        foreach ( $all_params as $curr_param ) {
+            $params_arr[] = array( $curr_param->getId() => $curr_param->getNameParam() . ' [' . $curr_param->getId() . ']' );
+        }
+
+        $param_id = new Phalcon\Forms\Element\Select('param_id', $params_arr, array(
+            //'using' => array( 'name_param' ),
+            'useEmpty' => true,
+            'emptyText' => '...выберите параметр...',
+            'emptyValue' => '',
+            'class' => 'form-control'
+        ));
+        $param_id->setLabel('Параметр');
+        $param_id->addValidator( new \Phalcon\Validation\Validator\PresenceOf( array(
+            'message' => 'Заполните поле Параметр'
+        )) );
+        $this->add($param_id);
+
+        $sports_arr = array();
+        $all_sports = SportKind::find();
+        foreach ( $all_sports as $curr_sport ) {
+            $sports_arr[] = array( $curr_sport->getId() => $curr_sport->getName() . ' [' . $curr_sport->getId() . ']' );
+        }
+
+        $sport_id = new Phalcon\Forms\Element\Select('sport_id', $sports_arr, array(
+            'useEmpty' => true,
+            'emptyText' => '...выберите параметр...',
+            'emptyValue' => '',
+            'class' => 'form-control'
+        ));
+        $sport_id->setLabel('Вид спорта');
+        $sport_id->addValidator( new \Phalcon\Validation\Validator\PresenceOf( array(
+            'message' => 'Заполните поле Вид спорта'
+        )) );
+        $this->add($sport_id);
+    }
 }

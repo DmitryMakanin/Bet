@@ -9,7 +9,8 @@ match.id AS `match_id`,
 `season`.`name_season` as `season_name`,
 `league`.`name_league` as `league_name`,
 `sport_kind`.`name` as `kind_name`,
-`dt_start`, `dt_end`
+`dt_start`, `dt_end`,
+`match`.`state` AS `match_status`
 FROM `match`
 LEFT JOIN `team` as `team_home` ON (`match`.`home_team_id` = `team_home`.`id`)
 LEFT JOIN `team` as `team_guest` ON (`match`.`guest_team_id` = `team_guest`.`id`)
@@ -23,7 +24,6 @@ LEFT JOIN `sport_kind` on `sport_kind`.`id` = match.league_kind_sport_id")->fetc
         else {
             $this->view->matches = $matches;
         }
-
     }
 
     public function AddAction() {
@@ -111,18 +111,44 @@ LEFT JOIN `sport_kind` on `sport_kind`.`id` = match.league_kind_sport_id")->fetc
         }
     }
 
-    public function DeleteAction($match_id = null) {
-        if ($match_id == null) {
+    public function DeleteAction() {
+       /* if ($match_id == null) {
         $this->forward('match/index');
         return;
+        }*/
+
+        $curr_act = $this->request->get('act', 'string');
+        $curr_match_id = (int)$_GET['match_id'];
+
+        if ($curr_act == '' || $curr_match_id == '') {
+            $this->flash->error('Неккоректный запрос');
+            $this->forward('match/index');
+            return;
         }
 
-        $curr_match = Match::findFirst((int)$match_id);
+        $curr_match = Match::findFirst($curr_match_id);
         if ($curr_match) {
-            if ($curr_match->delete()) {
-                $this->flash->success('Данный матч удален');
-                $this->forward('match/index');
-            }
+                switch ($curr_act) {
+                    case 'hide':
+                        $curr_match->setState('hidden');
+                        break;
+                    case 'delete':
+                        $curr_match->setState('deleted');
+                        break;
+                    case 'restore':
+                        $curr_match->setState('non_deleted');
+                        break;
+                    default:
+                        $this->flash->error('Некорректный запрос');
+                        return;
+                        break;
+                }
+
+               if ($curr_match->save()) {
+                   $this->flash->success('Данный матч обновлен!');
+                   $this->forward('match/index');
+               }
+
         } else {
             $this->flash->error('Данный матч не найден');
         }
