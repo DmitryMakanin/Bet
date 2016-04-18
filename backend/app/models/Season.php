@@ -8,7 +8,7 @@ class Season extends \Phalcon\Mvc\Model
     /**
      * @var string
      */
-    private $status;
+    //private $status;
 
     /**
      *
@@ -37,17 +37,17 @@ class Season extends \Phalcon\Mvc\Model
     /**
      * @return string
      */
-    public function getStatus()
+    public function getState()
     {
-        return $this->status;
+        return $this->state;
     }
 
     /**
      * @param string $status
      */
-    public function setStatus($status)
+    public function setState($status)
     {
-        $this->status = $status;
+        $this->state = $status;
     }
 
     /**
@@ -150,14 +150,14 @@ class Season extends \Phalcon\Mvc\Model
         $this->hasMany('id', 'Match', 'season_id', array('alias' => 'Match'));
         $this->belongsTo('league_id', 'League', 'id', array('alias' => 'League'));
         $this->belongsTo('league_sport_kind_id', 'SportKind', 'id', array('alias' => 'SportKind'));
-        $this->addBehavior(
+        /*$this->addBehavior(
             new SoftDelete(
                 array(
                     'field' => 'status',
                     'value' => Season::DELETED
                 )
             )
-        );
+        );*/
     }
 
     /**

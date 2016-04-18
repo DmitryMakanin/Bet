@@ -1,7 +1,11 @@
 <?php
 
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
+
 class Country extends \Phalcon\Mvc\Model
 {
+    const DELETED = 'D';
 
     /**
      *
@@ -41,6 +45,20 @@ class Country extends \Phalcon\Mvc\Model
         return $this;
     }
 
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setState($status)
+    {
+        $this->state = $status;
+    }
+
+
     /**
      * Returns the value of field id
      *
@@ -67,6 +85,14 @@ class Country extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->hasMany('id', 'League', 'country_id', array('alias' => 'League'));
+        /*$this->addBehavior(
+            new SoftDelete(
+                array(
+                    'field' => 'status',
+                    'value' => Country::DELETED
+                )
+            )
+        );*/
     }
 
     /**

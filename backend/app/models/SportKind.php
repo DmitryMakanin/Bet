@@ -3,6 +3,8 @@
 class SportKind extends \Phalcon\Mvc\Model
 {
 
+    const DELETED = 'D';
+
     /**
      *
      * @var integer
@@ -14,6 +16,8 @@ class SportKind extends \Phalcon\Mvc\Model
      * @var string
      */
     protected $name;
+
+    private $state;
 
     /**
      * Method to set the value of field id
@@ -39,6 +43,19 @@ class SportKind extends \Phalcon\Mvc\Model
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setState($status)
+    {
+        $this->state = $status;
     }
 
     /**
@@ -72,6 +89,14 @@ class SportKind extends \Phalcon\Mvc\Model
         $this->hasMany('id', 'ParamSports', 'kind_of_sport_id', array('alias' => 'ParamSports'));
         $this->hasMany('id', 'Season', 'league_sport_kind_id', array('alias' => 'Season'));
         $this->hasMany('id', 'Team', 'league_kind_sport_id', array('alias' => 'Team'));
+       /* $this->addBehavior(
+            new SoftDelete(
+                array(
+                    'field' => 'status',
+                    'value' => League::DELETED
+                )
+            )
+        );*/
     }
 
     /**

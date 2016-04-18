@@ -2,6 +2,8 @@
 
 class MatchStat extends \Phalcon\Mvc\Model {
 
+    const DELETED = 'D';
+
     /**
      *
      * @var integer
@@ -121,6 +123,20 @@ class MatchStat extends \Phalcon\Mvc\Model {
      *
      * @return integer
      */
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -185,6 +201,14 @@ class MatchStat extends \Phalcon\Mvc\Model {
         $this->belongsTo('match_league_id', 'League', 'id', array('alias' => 'League'));
         $this->belongsTo('match_league_kind_sport_id', 'SportKind', 'id', array('alias' => 'SportKind'));
         $this->belongsTo('param_sports_id', 'ParamSports', 'id', array('alias' => 'ParamSports'));
+        $this->addBehavior(
+            new SoftDelete(
+                array(
+                    'field' => 'status',
+                    'value' => League::DELETED
+                )
+            )
+        );
     }
 
     /**

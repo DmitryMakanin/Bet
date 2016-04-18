@@ -3,7 +3,7 @@
 {{ form('paramsports/add', 'method': 'POST', 'class': 'form-horizontal') }}
 
     <fieldset>
-    <legend>Добавление связей параметр-вид спорта</legend>
+    <legend>Добавление связей параметр-спорт</legend>
 		
 		{% for element in form.getElements() %}
 		<div class="form-group">

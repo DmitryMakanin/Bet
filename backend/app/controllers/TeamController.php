@@ -3,14 +3,14 @@
 class TeamController extends ControllerBase {
 	public function IndexAction() {
 		
-		$teams = $this->db->query("SELECT
-				team.id AS `team_id`,				
-				`league`.`name_league` as `league_name`,
-				`sport_kind`.`name` as `kind_name`,
-				`name_team`, `info`
-				FROM `team`
-				LEFT JOIN `league` ON `league`.`id` = team.league_id
-				LEFT JOIN `sport_kind` on `sport_kind`.`id` = team.league_kind_sport_id")->fetchAll();
+//		$teams = $this->db->query("SELECT
+//				team.id AS `team_id`,
+//				`league`.`name_league` as `league_name`,
+//				`sport_kind`.`name` as `kind_name`,
+//				`name_team`, `info`
+//				FROM `team`
+//				LEFT JOIN `league` ON `league`.`id` = team.league_id
+//				LEFT JOIN `sport_kind` on `sport_kind`.`id` = team.league_kind_sport_id")->fetchAll();
 		
 		$teams = Team::find();
 		if ($teams == null) {
@@ -102,8 +102,8 @@ class TeamController extends ControllerBase {
 		}
 	}
 	
-	public function DeleteAction($team_id = null) {
-		if ($team_id == null) {
+	public function DeleteAction() {
+		/*if ($team_id == null) {
 			$this->forward('team/index');
 			return;
 		}
@@ -116,6 +116,43 @@ class TeamController extends ControllerBase {
 			}
 		} else {
 			$this->flash->error('Данная команда не найдена');
+		}*/
+
+		$curr_act = $this->request->get('act', 'string');
+		$curr_team_id = (int)$_GET['team_id'];
+
+		if ($curr_act == '' || $curr_team_id == '') {
+			$this->flash->error('Неккоректный запрос');
+			$this->forward('team/index');
+			return;
 		}
+
+		$curr_team = Team::findFirst($curr_team_id);
+		if ($curr_team) {
+			switch ($curr_act) {
+				case 'hide':
+					$curr_team->setState('hidden');
+					break;
+				case 'delete':
+					$curr_team->setState('deleted');
+					break;
+				case 'restore':
+					$curr_team->setState('non_deleted');
+					break;
+				default:
+					$this->flash->error('Некорректный запрос!');
+					return;
+					break;
+			}
+
+			if ($curr_team->save()) {
+				$this->flash->success('Данный матч обновлен!');
+				$this->forward('team/index');
+			}
+
+		} else {
+			$this->flash->error('Данный матч не найден');
+		}
+
 	}
 }

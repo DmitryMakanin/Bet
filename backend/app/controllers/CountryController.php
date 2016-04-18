@@ -67,7 +67,7 @@ class CountryController extends ControllerBase {
 				return;
 			}
 				
-			$curr_country->setCountryName( $this->request->getPost('countryname', 'string') );
+			$curr_country->setCountryName( $this->request->getPost('country_name', 'string') );
 				
 			if ( !$curr_country->update() ) {
 				foreach ($curr_country->getMessages() as $message) {
@@ -82,11 +82,11 @@ class CountryController extends ControllerBase {
 	}
 	
 	public function DeleteAction( $country_id = null ) {
-		if ( $country_id == null ) {
+		/*if ( $country_id == null ) {
 			$this->forward('country/index');
 			return;
 		}
-	
+
 		$curr_country = Country::findFirst( (int)$country_id );
 		if ( $curr_country ) {
 			if ( $curr_country->delete() ) {
@@ -95,6 +95,41 @@ class CountryController extends ControllerBase {
 			}
 		} else {
 			$this->flash->error('Данная страна не найдена.');
+		}*/
+
+		$curr_act = $this->request->get('act' , 'string');
+		$curr_country_id = (int)$_GET['country_id'];
+
+		if ($curr_act == '' || $curr_country_id == '') {
+			$this->flash->error('Неккоретный запрос');
+			$this->forward('country/index');
+			return;
+		}
+
+		$curr_country = Country::findFirst($curr_country_id);
+		if ($curr_country) {
+			switch ($curr_act) {
+				case 'hide':
+					$curr_country->setState('hidden');
+					break;
+				case 'delete':
+					$curr_country->setState('deleted');
+					break;
+				case 'restore':
+					$curr_country->setState('non_deleted');
+					break;
+				default:
+					$this->flash->error('Неккоректный запрос');
+					return;
+				break;
+			}
+
+			if ($curr_country->save()) {
+				$this->flash->success('Данная страна обнолена!');
+				$this->forward('country/index');
+			}
+		} else {
+			$this->flash->error('Данная страна не найдена');
 		}
 	}
 }
